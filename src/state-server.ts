@@ -4,7 +4,7 @@ import StateManager from "./state-manager";
 import { v4 as uuid } from "uuid"
 import ClientManager from "./client-manager";
 
-export default class StateServer {
+export class StateServer {
   constructor(public app: http.Server) {
     StateManager.getInstance()
     ClientManager.getInstance()

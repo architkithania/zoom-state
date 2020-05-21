@@ -1,15 +1,16 @@
 {
-  "name": "state-management-server",
+  "name": "zoom-state",
   "version": "1.0.0",
-  "description": "",
+  "description": "An easy to use state management system to manage state across multiple devices",
   "main": "index.js",
+  "types": "dist/state-server.d.ts",
   "scripts": {
-    "start": "node dist/index.js",
-    "build": "tsc",
+    "prepare": "npm run build",
+    "build": "npm run tsc",
     "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "architkithania",
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
