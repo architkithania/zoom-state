@@ -1,6 +1,6 @@
 {
   "name": "zoom-state",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "An easy to use state management system to manage state across multiple devices",
   "main": "index.js",
   "types": "dist/state-server.d.ts",
@@ -26,5 +26,11 @@
     "@types/uuid": "^7.0.3",
     "@types/ws": "^7.2.4",
     "typescript": "^3.9.2"
-  }
+  },
+  "files": [
+    "index.js",
+    "src/",
+    "README.md",
+    "dist/"
+  ]
 }

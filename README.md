@@ -32,7 +32,15 @@ Currently ZoomState requires clients to interact directly with WebSockets but Cl
 
 ## Installation
 
-Since this project is still in the early stages, the installation process is not ideal. Ideally we would want people to simply install ZoomState as an NPM package. Currently this package has not been published so you have to manually clone the repo and use the files. To clone the repo do the following:
+The easiest way to install the package is through `npm`:
+
+```bash
+npm install zoom-state
+```
+
+
+
+You can also manually clone the repo and use the files as well. To clone the repo do the following:
 
 ```bash
 git clone https://www.github.com/architkithania/zoomstate
@@ -59,7 +67,7 @@ import express from "express"
 import bodyParser from "body-parser";
 import http from "http"
 
-import StateServer from "./path/to/state-server";
+import { StateServer } from "zoom-state";
 const PORT = process.env.PORT || 8000
 
 // The port at which the state server should get started
@@ -233,7 +241,6 @@ The use of `minProperties` flag prevents users from setting only a part of the s
 ZoomState is far from finished. There are a lot of things that can be added and improved. The following are just some ideas for future change
 
 1. Add a client SDK
-2. Turn module into an NPM package
 3. Allow users to set state without getting an echo themselves
 4. Let the State Server run on the same port as the main server
 5. Clean up the overall API
