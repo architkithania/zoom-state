@@ -33,6 +33,14 @@ export class StateServer {
     return StateManager.getInstance().deleteState(stateId)
   }
 
+  public setState(stateId: string, newState: JSON): boolean {
+    return StateManager.getInstance().setState(stateId, newState)
+  }
+
+  public getState(stateId: string): JSON {
+    return StateManager.getInstance().getState(stateId)
+  }
+
   public createClient(): string {
     return uuid()
   }

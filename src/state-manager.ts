@@ -91,7 +91,7 @@ export default class StateManager {
     })
   }
 
-  private setState(stateId: string, newState: JSON): boolean {
+  public setState(stateId: string, newState: JSON): boolean {
     if (!this.states.has(stateId)) {
       return false
     }
@@ -113,7 +113,7 @@ export default class StateManager {
     return true
   }
 
-  private getState(stateId: string): JSON {
+  public getState(stateId: string): JSON {
     return this.states.get(stateId)?.getState() ?? JSON.parse(`{"error": "no such state"}`)
   }
 
