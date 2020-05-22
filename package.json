@@ -31,6 +31,7 @@
     "index.js",
     "src/",
     "README.md",
-    "dist/"
+    "dist/",
+    "LICENSE"
   ]
 }
