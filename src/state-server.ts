@@ -29,6 +29,10 @@ export class StateServer {
     return StateManager.getInstance().createState(stateId, schema, initialState);
   }
 
+  public deleteState(stateId: string) {
+    return StateManager.getInstance().deleteState(stateId)
+  }
+
   public createClient(): string {
     return uuid()
   }

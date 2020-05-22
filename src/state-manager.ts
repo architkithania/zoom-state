@@ -133,6 +133,10 @@ export default class StateManager {
     return true
   }
 
+  public deleteState(stateId: string) {
+    return this.states.delete(stateId)
+  }
+
   public subscribe(client: Client) {
     this.states.get(client.stateId)?.subscribe(client)
     const state = this.states.get(client.stateId)?.getState(false)
@@ -143,7 +147,7 @@ export default class StateManager {
 
   public unsubscribe(client: Client) {
     this.states.get(client.stateId)?.unsubscribe(client)
-    const state = this.states.get(client.stateId)?.getState()
+    const state = this.states.get(client.stateId)?.getState(false)
     if (state !== undefined && state !== null) {
       this.setState(client.stateId, state!)
     }

@@ -85,6 +85,10 @@ stateServer.initWebSocketServer("/ws")
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
+app.get("/", (_, res) => {
+  res.send("Hello World")
+})
+
 // Exposed endpoint to allow users to create states
 app.get("/new-state", (req, res) => {
   // Note: You should do some request verifciation
