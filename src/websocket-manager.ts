@@ -13,9 +13,15 @@ export class WebSocketManager {
   public readonly wss: WebSocket.Server
 
   private constructor(private readonly app: http.Server, public readonly webSocketPath: string,
-                      public readonly port: number) {
+                      public readonly port?: number) {
 
-    this.wss = new WebSocket.Server({server: app, path: webSocketPath, port: port})
+    if (port === undefined) {
+      this.wss = new WebSocket.Server({server: app, path: webSocketPath})
+    }
+    else {
+      this.wss = new WebSocket.Server({server: app, path: webSocketPath, port: port})
+    }
+
     this.messageListener();
     this.handleConnections();
 
@@ -56,9 +62,9 @@ export class WebSocketManager {
 
   public static getInstance(app?: http.Server, webSocketPath?: string, port?: number): WebSocketManager {
     if (!WebSocketManager.instance) {
-      if (!app || !webSocketPath || !port) {
+      if (!app || !webSocketPath) {
         throw new Error("Trying to get instance of an uninitialized WebSocketManager." +
-                        " Provide all optional parameters")
+                        " Provide at least an http.Server and a webSocketPath")
       }
       WebSocketManager.instance = new WebSocketManager(app, webSocketPath, port)
     }
@@ -87,7 +93,6 @@ export class WebSocketManager {
   private messageListener() {
     MessageManager.getInstance().subscribeToSentMessages((message: string, sockets: LivelyWebsockets[]) => {
       sockets.forEach(ws => {
-        console.log(ws.uuid, ws.isAlive, ws.readyState == WebSocket.OPEN)
         if (ws.isAlive && ws.readyState == WebSocket.OPEN) {
           ws.send(message)
         }

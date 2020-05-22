@@ -43,7 +43,7 @@ npm install zoom-state
 You can also manually clone the repo and use the files as well. To clone the repo do the following:
 
 ```bash
-git clone https://www.github.com/architkithania/zoomstate
+git clone https://www.github.com/architkithania/zoom-state
 ```
 
 Next build the project (as it uses typescript)
@@ -70,24 +70,26 @@ import http from "http"
 import { StateServer } from "zoom-state";
 const PORT = process.env.PORT || 8000
 
-// The port at which the state server should get started
-const STATE_PORT = process.env.STATE_PORT || 8080
-
 const app = express()
+const httpServer = http.createServer(app)
+
+// The following *MUST* run before any other express/http code
+// Create a new state server instance.
+const stateServer = new StateServer(httpServer)
+// Path and port at which the state server should expose state management.
+// Optionally, a port argument can be provided for the WebSocket server. If
+// Not provided, web socket server runs on the same port as the http server
+stateServer.initWebSocketServer("/ws")
+
+// Initialise your application as needed
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
-// Create a new state server instance.
-const stateServer = new StateServer(http.createServer(app))
-
-// Path and port at which the state server should expose state management
-stateServer.initWebSocketServer("/ws", STATE_PORT)
-
 // Exposed endpoint to allow users to create states
 app.get("/new-state", (req, res) => {
-  // Note: You should do some request verifciation 
+  // Note: You should do some request verifciation
   const schema = req.body.schema 			 // JSON-schema
-  const initialState = req.body.initialState // Object abiding to the the JSON-Schema 
+  const initialState = req.body.initialState // Object abiding to the the JSON-Schema
   const stateId = req.body.stateId			 // The name of the state
 
   if (!stateServer.createState(stateId, schema, initialState)) {
@@ -95,9 +97,9 @@ app.get("/new-state", (req, res) => {
     res.status(400).send("error in schema or initial state")
     return;
   }
-  
+
   // Success! State successfully Created.
-  res.send(value.stateId)
+  res.send(stateId)
 })
 
 app.get("/new-user", (req, res) => {
@@ -105,7 +107,7 @@ app.get("/new-user", (req, res) => {
   res.send(stateServer.createClient())
 })
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`Hosted on http://localhost:${PORT}`)
 })
 ```
@@ -121,7 +123,7 @@ The state creator above is wrapped in an HTTP. Suppose we want to create a state
 ```json
 {
     "type": "object",
-    "proporties": {
+    "properties": {
         "stateValue1": { "type": "number" },
         "stateValue2": { "type": "string" },
     },
@@ -200,7 +202,7 @@ const setStateMessage = {
     manager: "state",
     data: {
         type: "set-state",
-        stateId: "my-state" 	// state you want to subscribe to
+        stateId: "my-state",	// state you want to subscribe to
         state: {
         	stateValue1: 11
     	}
@@ -241,7 +243,6 @@ The use of `minProperties` flag prevents users from setting only a part of the s
 ZoomState is far from finished. There are a lot of things that can be added and improved. The following are just some ideas for future change
 
 1. Add a client SDK
-3. Allow users to set state without getting an echo themselves
-4. Let the State Server run on the same port as the main server
-5. Clean up the overall API
-6. Add better documentation
+2. Allow users to set state without getting an echo themselves
+3. Clean up the overall API
+4. Add better documentation

@@ -10,11 +10,16 @@ export class StateServer {
     ClientManager.getInstance()
   }
 
-  public initWebSocketServer(websocketPath: string, port: string | number) {
-    if (!isNaN(port as any)) {
-      port = parseInt(port as string)
+  public initWebSocketServer(websocketPath: string, port?: string | number) {
+    if (port !== undefined) {
+      if (!isNaN(port as any)) {
+        port = parseInt(port as string)
+      }
+      WebSocketManager.getInstance(this.app, websocketPath, port as number)
     }
-    WebSocketManager.getInstance(this.app, websocketPath, port as number)
+    else {
+      WebSocketManager.getInstance(this.app, websocketPath)
+    }
   }
 
   public createState(stateId: string, schema: JSON, initialState: JSON): boolean {

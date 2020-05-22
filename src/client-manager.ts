@@ -67,8 +67,6 @@ export default class ClientManager {
       const value: ClientSchema = <ClientSchema>validationResult.value.data
       const client = new Client(value.clientId, value.stateId, payload.ws.uuid!)
 
-      console.log(payload.ws.uuid)
-
       switch (value.type) {
         case "subscribe":
           if (!payload.ws.uuid) {
