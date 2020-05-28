@@ -38,7 +38,7 @@ export class StateServer {
   }
 
   public getState(stateId: string): JSON {
-    return StateManager.getInstance().getState(stateId)
+    return JSON.parse(JSON.stringify(StateManager.getInstance().getState(stateId)));
   }
 
   public createClient(): string {
